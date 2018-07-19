@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Datastore from 'nedb';
 import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+// import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   usuario: UsuarioTemplate = { usuario: 'usuario', password: 'password' };
   UsuarioForm:  FormGroup;
-  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, /* private router: Router, private route: ActivatedRoute */) {
    const db = new Datastore({ filename: './Usuarios.db', autoload: true });
   // this.usuario.nombre = 'Prueba';
   // this.usuario.password = 'Prueba';
