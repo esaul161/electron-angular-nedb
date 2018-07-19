@@ -13,11 +13,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InicioComponent } from './inicio/inicio.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AppRoutes } from './app-routing.module';
 
 @NgModule({
    declarations: [
       AppComponent,
-      LoginComponent
+      LoginComponent,
+      InicioComponent
    ],
    imports: [
       BrowserModule,
@@ -30,8 +34,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       MatRippleModule,
       MatInputModule,
       FormsModule,
-      ReactiveFormsModule
-    ],
+      ReactiveFormsModule,
+      RouterModule.forRoot(AppRoutes, { useHash: false })
+   ],
    providers: [],
    bootstrap: [
       AppComponent
