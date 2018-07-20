@@ -1,9 +1,9 @@
 <mat-toolbar color="primary">
-    <a mat-button href="./inicio">Inicio</a>
+    <button mat-button (click)="navegar('inicio')">Inicio</button>
   <button mat-button [matMenuTriggerFor]="productos">Productos</button>
 
 <mat-menu #productos="matMenu">
-  <a mat-menu-item href="./alta-productos" >Alta</a>
+  <button mat-menu-item (click)="navegar('altaproductos')">Alta</button>
   <button mat-menu-item >Baja</button>
   <button mat-menu-item >Cambios</button>
   <button mat-menu-item >Consulta</button>

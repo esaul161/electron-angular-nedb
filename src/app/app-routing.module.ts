@@ -8,5 +8,5 @@ import { AltaProductosComponent } from './alta-productos/alta-productos.componen
 export const AppRoutes: Routes = [
   { path: 'inicio', component: InicioComponent },
   { path: '', component: LoginComponent },
-  { path: 'alta-productos', component: AltaProductosComponent }
+  { path: 'altaproductos', component: AltaProductosComponent }
 ];
