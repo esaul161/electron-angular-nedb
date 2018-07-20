@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   usuario: UsuarioTemplate = { usuario: 'Pedro', password: 'password' };
   UsuarioForm:  FormGroup;
    db = new Datastore({ filename: './Usuarios.db', autoload: true });
+   hide = true;
 
   constructor(private fb: FormBuilder,  private router: Router, private route: ActivatedRoute) {
    // this.usuario.nombre = 'Pedro';
