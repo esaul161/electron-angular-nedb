@@ -2,7 +2,8 @@
 <div [formGroup]="ProductoForm" layout="row" layout-align="center center">
     <div>
     <mat-form-field class="example-full-width">
-      <input formControlName="Id" type="number" matInput placeholder="Código">
+      <input formControlName="Id" type="number" (blur)="verificaId()" matInput placeholder="Código">
+      <mat-hint *ngIf="existeId">El código ingresado ya existe.</mat-hint>
     </mat-form-field>
   </div>
   <div>
@@ -43,6 +44,6 @@
         </mat-form-field>
   </div>
   <div>
-    <button mat-raised-button (click)="save()" color="primary">Guardar</button>
+    <button mat-raised-button [disabled]="existeId" (click)="save()" color="primary">Guardar</button>
   </div>
   </div>
