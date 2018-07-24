@@ -39,6 +39,7 @@ export class AltaProductosComponent implements OnInit {
       console.log(err);
       console.log(newDoc);
     });
+    this.ProductoForm.reset();
   }
 
   verificaId() {

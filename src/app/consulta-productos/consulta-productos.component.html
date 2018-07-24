@@ -6,16 +6,21 @@
 [sortable]="false"
 [pageable]="true"
 [filterable]="false" (dataStateChange)="dataStateChange($event)" [height]="410">
-  <kendo-grid-column field="Id" title="ID" filter="numeric">
+  <kendo-grid-column field="Id" title="Código" filter="numeric">
   </kendo-grid-column>
-  <kendo-grid-column field="Descripcion" title="Name" >
+  <kendo-grid-column field="Descripcion" title="Descripción" >
   </kendo-grid-column>
-  <kendo-grid-column field="Existencias" title="Category">
+  <kendo-grid-column field="Existencias" title="Existencias">
   </kendo-grid-column>
-  <kendo-grid-column field="Fecha" title="Price">
+  <kendo-grid-column field="PrecioCompra" title="Precio de Compra">
   </kendo-grid-column>
-  <kendo-grid-column field="Marca" title="In stock">
+  <kendo-grid-column field="PrecioVenta" title="Precio de Venta">
+  </kendo-grid-column>
+  <kendo-grid-column field="Marca" title="Marca">
+  </kendo-grid-column>
+  <kendo-grid-column field="Proveedor" title="Proveedor">
+  </kendo-grid-column>
+  <kendo-grid-column field="Fecha" title="Fecha de Alta">
   </kendo-grid-column>
 </kendo-grid>
-
 
