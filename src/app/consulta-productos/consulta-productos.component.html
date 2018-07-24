@@ -1,0 +1,21 @@
+<app-menu></app-menu>
+<kendo-grid [data]="gridData" [pageSize]="state.take"
+[skip]="state.skip"
+[sort]="state.sort"
+[filter]="state.filter"
+[sortable]="false"
+[pageable]="true"
+[filterable]="false" (dataStateChange)="dataStateChange($event)" [height]="410">
+  <kendo-grid-column field="Id" title="ID" filter="numeric">
+  </kendo-grid-column>
+  <kendo-grid-column field="Descripcion" title="Name" >
+  </kendo-grid-column>
+  <kendo-grid-column field="Existencias" title="Category">
+  </kendo-grid-column>
+  <kendo-grid-column field="Fecha" title="Price">
+  </kendo-grid-column>
+  <kendo-grid-column field="Marca" title="In stock">
+  </kendo-grid-column>
+</kendo-grid>
+
+

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { GridModule } from '@progress/kendo-angular-grid';
 import {
   MatToolbarModule,
   MatTabsModule,
@@ -10,6 +11,7 @@ import {
   MatMenuModule,
   MatNativeDateModule
 } from '@angular/material';
+import {MatTableModule} from '@angular/material/table';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -20,6 +22,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutes } from './app-routing.module';
 import { AltaProductosComponent } from './alta-productos/alta-productos.component';
+import { ConsultaProductosComponent } from './consulta-productos/consulta-productos.component';
 import { MenuComponent } from './menu/menu.component';
 @NgModule({
    declarations: [
@@ -27,15 +30,18 @@ import { MenuComponent } from './menu/menu.component';
       LoginComponent,
       InicioComponent,
       AltaProductosComponent,
+      ConsultaProductosComponent,
       MenuComponent
    ],
    imports: [
       BrowserModule,
       MatToolbarModule,
+      MatTableModule,
       MatTabsModule,
       MatButtonModule,
       MatIconModule,
       MatCardModule,
+      GridModule,
       BrowserAnimationsModule,
       MatRippleModule,
       MatInputModule,
@@ -44,10 +50,10 @@ import { MenuComponent } from './menu/menu.component';
       MatMenuModule,
       MatDatepickerModule,
       ReactiveFormsModule,
-      RouterModule.forRoot(AppRoutes,
-      {useHash: false})
+      RouterModule.forRoot(AppRoutes, {useHash: false})
    ],
-   providers: [],
+   providers: [
+   ],
    bootstrap: [
       AppComponent
    ]

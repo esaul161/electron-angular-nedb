@@ -7,7 +7,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-alta-productos',
   templateUrl: './alta-productos.component.html',
-  styleUrls: ['./alta-productos.component.css']
+  styleUrls: ['./alta-productos.component.scss']
 })
 export class AltaProductosComponent implements OnInit {
   ProductoForm:  FormGroup;
