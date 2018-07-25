@@ -26,6 +26,7 @@ import { AltaProductosComponent } from './alta-productos/alta-productos.componen
 import { DialogComponent } from './dialog-component/dialog-component.component';
 import { BajaProductosComponent } from './baja-productos/baja-productos.component';
 import { ConsultaProductosComponent } from './consulta-productos/consulta-productos.component';
+import { CambioProductosComponent } from './cambio-productos/cambio-productos.component';
 import { MenuComponent } from './menu/menu.component';
 @NgModule({
    declarations: [
@@ -34,6 +35,7 @@ import { MenuComponent } from './menu/menu.component';
       InicioComponent,
       AltaProductosComponent,
       ConsultaProductosComponent,
+      CambioProductosComponent,
       MenuComponent,
       BajaProductosComponent,
       DialogComponent
@@ -49,14 +51,14 @@ import { MenuComponent } from './menu/menu.component';
       MatCardModule,
       GridModule,
       BrowserAnimationsModule,
+      RouterModule.forRoot(AppRoutes, {useHash: false}),
       MatRippleModule,
       MatInputModule,
       FormsModule,
       MatNativeDateModule,
       MatMenuModule,
       MatDatepickerModule,
-      ReactiveFormsModule,
-      RouterModule.forRoot(AppRoutes, {useHash: false})
+      ReactiveFormsModule
    ],
    providers: [
    ],
