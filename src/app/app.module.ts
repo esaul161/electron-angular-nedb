@@ -11,6 +11,7 @@ import {
   MatMenuModule,
   MatNativeDateModule
 } from '@angular/material';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
@@ -22,6 +23,8 @@ import { InicioComponent } from './inicio/inicio.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutes } from './app-routing.module';
 import { AltaProductosComponent } from './alta-productos/alta-productos.component';
+import { DialogComponent } from './dialog-component/dialog-component.component';
+import { BajaProductosComponent } from './baja-productos/baja-productos.component';
 import { ConsultaProductosComponent } from './consulta-productos/consulta-productos.component';
 import { MenuComponent } from './menu/menu.component';
 @NgModule({
@@ -31,13 +34,16 @@ import { MenuComponent } from './menu/menu.component';
       InicioComponent,
       AltaProductosComponent,
       ConsultaProductosComponent,
-      MenuComponent
+      MenuComponent,
+      BajaProductosComponent,
+      DialogComponent
    ],
    imports: [
       BrowserModule,
       MatToolbarModule,
       MatTableModule,
       MatTabsModule,
+      MatDialogModule,
       MatButtonModule,
       MatIconModule,
       MatCardModule,
@@ -56,6 +62,7 @@ import { MenuComponent } from './menu/menu.component';
    ],
    bootstrap: [
       AppComponent
-   ]
+   ],
+   entryComponents: [DialogComponent]
 })
 export class AppModule { }

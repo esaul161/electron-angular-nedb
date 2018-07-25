@@ -23,7 +23,7 @@ export class AltaProductosComponent implements OnInit {
       PrecioVenta: new FormControl(null, [Validators.required]),
       Marca: new FormControl(null, []),
       Proveedor: new FormControl(null, []),
-      Fecha: new FormControl({value: moment()}, []),
+      Fecha: new FormControl({value: moment().format('DD/MM/YYYY')}, []),
     });
   }
 
