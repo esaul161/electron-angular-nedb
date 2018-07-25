@@ -1,11 +1,18 @@
 <mat-toolbar color="primary">
     <button mat-button (click)="navegar('inicio')">Inicio</button>
   <button mat-button [matMenuTriggerFor]="productos">Productos</button>
+  <button mat-button [matMenuTriggerFor]="ventas">Ventas</button>
 
 <mat-menu #productos="matMenu">
   <button mat-menu-item (click)="navegar('altaproductos')">Alta</button>
   <button mat-menu-item (click)="navegar('bajaproductos')">Baja</button>
   <button mat-menu-item (click)="navegar('cambioproductos')">Cambios</button>
   <button mat-menu-item (click)="navegar('consultaproductos')">Consulta</button>
+</mat-menu>
+<mat-menu #ventas="matMenu">
+  <button mat-menu-item (click)="navegar('ventanueva')">Nueva</button>
+  <button mat-menu-item (click)="navegar('bajaproductos')">Consulta</button>
+  <button mat-menu-item (click)="navegar('cambioproductos')">Corte</button>
+  <button mat-menu-item (click)="navegar('cambioproductos')">Reporte Ventas</button>
 </mat-menu>
 </mat-toolbar>

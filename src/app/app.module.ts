@@ -27,6 +27,7 @@ import { DialogComponent } from './dialog-component/dialog-component.component';
 import { BajaProductosComponent } from './baja-productos/baja-productos.component';
 import { ConsultaProductosComponent } from './consulta-productos/consulta-productos.component';
 import { CambioProductosComponent } from './cambio-productos/cambio-productos.component';
+import { VentasNuevaComponent } from './ventas-nueva/ventas-nueva.component';
 import { MenuComponent } from './menu/menu.component';
 @NgModule({
    declarations: [
@@ -38,7 +39,8 @@ import { MenuComponent } from './menu/menu.component';
       CambioProductosComponent,
       MenuComponent,
       BajaProductosComponent,
-      DialogComponent
+      DialogComponent,
+      VentasNuevaComponent
    ],
    imports: [
       BrowserModule,
