@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import * as Datastore from 'nedb';
-import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
+import {FormControl, Validators, FormGroup, FormBuilder, FormArray} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
@@ -43,12 +43,6 @@ export class VentasNuevaComponent implements OnInit {
     }
    };
   constructor(private fb: FormBuilder,  private router: Router, private route: ActivatedRoute) {
-    this.VentaForm = this.fb.group({
-      Id: new FormControl(null, [Validators.required]),
-      Fecha: new FormControl({value: '', disabled: true}, []),
-      TotVta: new FormControl({value: '', disabled: true}, []),
-      TotArt: new FormControl({value: '', disabled: true}, [])
-    });
     this.ProductoForm = this.fb.group({
       Id: new FormControl(null, [Validators.required]),
       Cantidad: new FormControl(null, []),
@@ -56,6 +50,14 @@ export class VentasNuevaComponent implements OnInit {
       PrecioVenta: new FormControl(null, []),
       Total: new FormControl(null, [])
     });
+    this.VentaForm = this.fb.group({
+      Id: new FormControl(null, [Validators.required]),
+      Fecha: new FormControl({value: '', disabled: true}, []),
+      TotVta: new FormControl({value: '', disabled: true}, []),
+      TotArt: new FormControl({value: '', disabled: true}, []),
+      Productos: this.fb.array([])
+    });
+
   }
 
   ngOnInit() {
@@ -64,12 +66,12 @@ export class VentasNuevaComponent implements OnInit {
 
   verificaId($value) {
     let flag = false;
-    console.log('valor ', $value);
+    // console.log('valor ', $value);
     let producto = [];
     this.dbProd.find({ Id: Number($value) }, function (err, docs) {
       // docs is [{ planet: 'Mars', system: 'solar' }]
-      console.log(err);
-      console.log(docs);
+     // console.log(err);
+     // console.log(docs);
       if (docs.length) {
         flag = true;
         producto = docs;
@@ -81,7 +83,7 @@ export class VentasNuevaComponent implements OnInit {
       this.existeId = flag;
       if (flag) {
         this.existencias = producto[0].Existencias;
-        console.log(this.existencias);
+       // console.log(this.existencias);
         this.ProductoForm.get('Descripcion').setValue(producto[0].Descripcion);
         this.ProductoForm.get('PrecioVenta').setValue(producto[0].PrecioVenta);
       }
@@ -89,17 +91,23 @@ export class VentasNuevaComponent implements OnInit {
   }
 
   addElement() {
+    const arrayProd =  this.VentaForm.get('Productos') as FormArray;
     this.ProductoForm.get('Total').setValue(this.ProductoForm.get('PrecioVenta').value * this.ProductoForm.get('Cantidad').value);
     this.ELEMENT_DATA.push(this.ProductoForm.value);
-    this.ProductoForm.reset();
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    const formProd = this.createItem();
+      formProd.patchValue(this.ProductoForm.value);
+     arrayProd.push(formProd);
     this.calculaTotales();
+    this.ProductoForm.reset();
   }
 
   onDelete($valor) {
+    const arrayProd =  this.VentaForm.get('Productos') as FormArray;
     for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
       if (this.ELEMENT_DATA[i]['Id'] === $valor) {
         this.ELEMENT_DATA.splice(i, 1);
+        arrayProd.removeAt(i);
           break;
       }
   }
@@ -118,7 +126,7 @@ export class VentasNuevaComponent implements OnInit {
     let sumart = 0;
     let sumtot = 0;
     this.ELEMENT_DATA.forEach(function(obj) {
-      console.log('entre al ciclo');
+     // console.log('entre al ciclo');
       sumart += Number(obj['Cantidad']);
       obj['Total'] = Number(obj['Cantidad']) * Number(obj['PrecioVenta']);
       sumtot += Number(obj['Total']);
@@ -130,7 +138,7 @@ export class VentasNuevaComponent implements OnInit {
   }
 
   cambioProductos($event) {
-    console.log($event);
+   // console.log($event);
     if ($event > this.existencias || $event === null) {
       this.existen = true;
       this.flagboton = true;
@@ -141,7 +149,22 @@ export class VentasNuevaComponent implements OnInit {
       this.existen = false;
       this.flagboton = false;
     }
-    console.log($event);
+   // console.log($event);
+  }
+
+  guardarVenta() {
+   // this.VentaForm.get('Productos').setValue(this.dataSource.data);
+    console.log(this.VentaForm.getRawValue());
+  }
+
+  createItem(): FormGroup {
+    return this.fb.group({
+          Id: new FormControl(null, [Validators.required]),
+          Cantidad: new FormControl(null, []),
+          Descripcion: new FormControl(null, []),
+          PrecioVenta: new FormControl(null, []),
+          Total: new FormControl(null, [])
+    });
   }
 }
 
