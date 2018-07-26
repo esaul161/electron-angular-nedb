@@ -19,12 +19,15 @@ import { map } from 'rxjs/operators/map';
 export class VentasNuevaComponent implements OnInit {
   VentaForm: FormGroup;
   ProductoForm:  FormGroup;
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  ELEMENT_DATA: Element[] = [];
+  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
-  displayedColumns = ['Id', 'Descripcion', 'Cantidad', 'PrecioVenta', 'Total'];
+  displayedColumns = ['Id', 'Descripcion', 'Cantidad', 'PrecioVenta', 'Total', 'Acciones'];
   db = new Datastore({ filename: './Ventas.db', autoload: true });
   dbProd = new Datastore({ filename: './Productos.db', autoload: true });
   existeId = true;
+  totart;
+  totpag;
   public state: State = {
     skip: 0,
     take: 5,
@@ -38,7 +41,9 @@ export class VentasNuevaComponent implements OnInit {
   constructor(private fb: FormBuilder,  private router: Router, private route: ActivatedRoute) {
     this.VentaForm = this.fb.group({
       Id: new FormControl(null, [Validators.required]),
-      Fecha: new FormControl({value: '', disabled: true}, [])
+      Fecha: new FormControl({value: '', disabled: true}, []),
+      TotVta: new FormControl({value: '', disabled: true}, []),
+      TotArt: new FormControl({value: '', disabled: true}, [])
     });
     this.ProductoForm = this.fb.group({
       Id: new FormControl(null, [Validators.required]),
@@ -79,13 +84,59 @@ export class VentasNuevaComponent implements OnInit {
 
   addElement() {
     this.ProductoForm.get('Total').setValue(this.ProductoForm.get('PrecioVenta').value * this.ProductoForm.get('Cantidad').value);
-    console.log(this.ProductoForm.value);
-    ELEMENT_DATA.push(this.ProductoForm.value);
+    this.ELEMENT_DATA.push(this.ProductoForm.value);
     this.ProductoForm.reset();
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.calculaTotales();
+    console.log(this.totart, ' ', this.totpag);
+  }
+
+  onDelete($valor) {
+    console.log($valor);
+    /* console.log(this.ELEMENT_DATA.filter(function( obj ) {
+      return obj['Id'] !== $valor;
+    }));
+    this.ELEMENT_DATA = this.ELEMENT_DATA.filter(function( obj ) {
+      return obj['Id'] !== $valor;
+    }); */
+    for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
+      if (this.ELEMENT_DATA[i]['Id'] === $valor) {
+        this.ELEMENT_DATA.splice(i, 1);
+          break;
+      }
+  }
+  this.calculaTotales();
+    console.log(this.totart, ' ', this.totpag);
+  this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  }
+
+  cambioCantidad($event) {
+    setTimeout(() => {
+      this.ELEMENT_DATA = this.dataSource.data;
+      console.log(this.ELEMENT_DATA);
+      console.log('cambie de valor ', $event);
+      this.calculaTotales();
+    console.log(this.totart, ' ', this.totpag);
+  }, 500);
+  }
+
+  calculaTotales() {
+    let sumart = 0;
+    let sumtot = 0;
+    this.ELEMENT_DATA.forEach(function(obj) {
+      console.log('entre al ciclo');
+      sumart += Number(obj['Cantidad']);
+      obj['Total'] = Number(obj['Cantidad']) * Number(obj['PrecioVenta']);
+      sumtot += Number(obj['Total']);
+    });
+    this.totart = sumart;
+    this.totpag = sumtot;
+    this.VentaForm.get('TotArt').setValue(this.totart);
+    this.VentaForm.get('TotVta').setValue(this.totpag);
   }
 
 }
+
 
 interface Product {
    Id: number;
@@ -93,6 +144,3 @@ interface Product {
    Cantidad: number;
    PrecioVenta: number;
 }
-
-const ELEMENT_DATA: Element[] = [
-];

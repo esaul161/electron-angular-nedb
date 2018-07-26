@@ -26,6 +26,16 @@
 <div>
   <button mat-raised-button (click)="addElement()" color="primary">Guardar</button>
 </div>
+<div>
+  <mat-form-field class="example-full-width">
+    <input formControlName="TotArt" type="number" (blur)="verificaId()" matInput placeholder="Total de artículos">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field class="example-full-width">
+    <input formControlName="TotVta" type="number" (blur)="verificaId()" matInput placeholder="Tótal a pagar">
+  </mat-form-field>
+</div>
 </div>
 <div *ngIf="!dataSource.length">
 <mat-table #table [dataSource]="dataSource">
@@ -46,7 +56,7 @@
   <ng-container matColumnDef="Cantidad">
     <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
     <mat-cell *matCellDef="let element" ><mat-form-field floatLabel="never">
-      <input matInput placeholder="Name" [value]="element.Cantidad" [(ngModel)]="element.Cantidad">
+      <input matInput placeholder="Name" [value]="element.Cantidad" (ngModelChange)="cambioCantidad($event)" [(ngModel)]="element.Cantidad">
     </mat-form-field></mat-cell>
   </ng-container>
 
@@ -59,6 +69,15 @@
   <ng-container matColumnDef="Total">
     <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.Cantidad * element.PrecioVenta}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="Acciones">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+          <button mat-button (click)="onDelete(element.Id)">
+              <mat-icon>Eliminar</mat-icon>
+          </button>
+      </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
