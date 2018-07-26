@@ -18,13 +18,13 @@
   <mat-hint *ngIf="!existeId">El código ingresado no existe.</mat-hint>
 </mat-form-field>
 <mat-form-field class="example-full-width">
-  <input type="number" formControlName="Cantidad" matInput placeholder="Cantidad">
-  <mat-hint *ngIf="!existeId">No existen productos suficientes.</mat-hint>
+  <input type="number" formControlName="Cantidad" (ngModelChange)="cambioProductos($event)" matInput placeholder="Cantidad">
+  <mat-hint *ngIf="existen">{{texto}}</mat-hint>
 </mat-form-field>
 </div>
 
 <div>
-  <button mat-raised-button (click)="addElement()" color="primary">Guardar</button>
+  <button mat-raised-button [disabled]="flagboton" (click)="addElement()" color="primary">Guardar</button>
 </div>
 <div>
   <mat-form-field class="example-full-width">

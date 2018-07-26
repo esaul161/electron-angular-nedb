@@ -26,8 +26,12 @@ export class VentasNuevaComponent implements OnInit {
   db = new Datastore({ filename: './Ventas.db', autoload: true });
   dbProd = new Datastore({ filename: './Productos.db', autoload: true });
   existeId = true;
+  existen = false;
+  flagboton = true;
+  texto;
   totart;
   totpag;
+  existencias;
   public state: State = {
     skip: 0,
     take: 5,
@@ -76,6 +80,8 @@ export class VentasNuevaComponent implements OnInit {
     setTimeout(() => {
       this.existeId = flag;
       if (flag) {
+        this.existencias = producto[0].Existencias;
+        console.log(this.existencias);
         this.ProductoForm.get('Descripcion').setValue(producto[0].Descripcion);
         this.ProductoForm.get('PrecioVenta').setValue(producto[0].PrecioVenta);
       }
@@ -88,17 +94,9 @@ export class VentasNuevaComponent implements OnInit {
     this.ProductoForm.reset();
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
     this.calculaTotales();
-    console.log(this.totart, ' ', this.totpag);
   }
 
   onDelete($valor) {
-    console.log($valor);
-    /* console.log(this.ELEMENT_DATA.filter(function( obj ) {
-      return obj['Id'] !== $valor;
-    }));
-    this.ELEMENT_DATA = this.ELEMENT_DATA.filter(function( obj ) {
-      return obj['Id'] !== $valor;
-    }); */
     for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
       if (this.ELEMENT_DATA[i]['Id'] === $valor) {
         this.ELEMENT_DATA.splice(i, 1);
@@ -106,17 +104,13 @@ export class VentasNuevaComponent implements OnInit {
       }
   }
   this.calculaTotales();
-    console.log(this.totart, ' ', this.totpag);
   this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   }
 
   cambioCantidad($event) {
     setTimeout(() => {
       this.ELEMENT_DATA = this.dataSource.data;
-      console.log(this.ELEMENT_DATA);
-      console.log('cambie de valor ', $event);
       this.calculaTotales();
-    console.log(this.totart, ' ', this.totpag);
   }, 500);
   }
 
@@ -135,6 +129,20 @@ export class VentasNuevaComponent implements OnInit {
     this.VentaForm.get('TotVta').setValue(this.totpag);
   }
 
+  cambioProductos($event) {
+    console.log($event);
+    if ($event > this.existencias || $event === null) {
+      this.existen = true;
+      this.flagboton = true;
+      this.texto = 'No existen productos suficientes.';
+    } else if ($event === 0) {
+      this.texto = 'La cantidad debe ser mayor a 0.';
+    } else {
+      this.existen = false;
+      this.flagboton = false;
+    }
+    console.log($event);
+  }
 }
 
 
