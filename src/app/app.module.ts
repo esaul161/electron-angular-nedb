@@ -29,6 +29,7 @@ import { ConsultaProductosComponent } from './consulta-productos/consulta-produc
 import { CambioProductosComponent } from './cambio-productos/cambio-productos.component';
 import { VentasNuevaComponent } from './ventas-nueva/ventas-nueva.component';
 import { MenuComponent } from './menu/menu.component';
+import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.component';
 @NgModule({
    declarations: [
       AppComponent,
@@ -37,6 +38,7 @@ import { MenuComponent } from './menu/menu.component';
       AltaProductosComponent,
       ConsultaProductosComponent,
       CambioProductosComponent,
+      VentasConsultaComponent,
       MenuComponent,
       BajaProductosComponent,
       DialogComponent,

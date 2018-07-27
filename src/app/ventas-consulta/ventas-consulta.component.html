@@ -1,0 +1,57 @@
+<app-menu></app-menu>
+<div>
+  <mat-form-field>
+      <input #fechainicio matInput [matDatepicker]="picker1" placeholder="Fecha Inicio">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+</div>
+<div>
+  <mat-form-field>
+      <input #fechafin matInput [matDatepicker]="picker2" placeholder="Fecha Fin">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+</div>
+<div>
+  <button mat-raised-button (click)="getData(fechainicio.value, fechafin.value)" color="primary">Buscar</button>
+</div>
+
+<kendo-grid [data]="gridData" [pageSize]="state.take"
+[skip]="state.skip"
+[sort]="state.sort"
+[filter]="state.filter"
+[sortable]="false"
+[pageable]="true"
+[filterable]="false" [height]="410">
+  <kendo-grid-column field="Id" title="Código" filter="numeric">
+  </kendo-grid-column>
+  <kendo-grid-column field="Fecha" title="Fecha" format='{0:dd/MM/yyyy HH:mm:ss}' >
+  </kendo-grid-column>
+  <kendo-grid-column field="TotArt" title="Total Artículos">
+  </kendo-grid-column>
+  <kendo-grid-column field="TotVta" title="Total Venta" format="{0:c}">
+  </kendo-grid-column>
+  <div *kendoGridDetailTemplate="let dataItem">
+    <kendo-grid
+    [data]="dataItem.Productos"
+    [pageSize]="50"
+    [skip]="0"
+    [pageable]="false"
+    [scrollable]="'none'"
+    (pageChange)="pageChange($event)"
+  >
+<kendo-grid-column field="Id" title="Código" >
+</kendo-grid-column>
+<kendo-grid-column field="Descripcion" title="Descripción">
+</kendo-grid-column>
+<kendo-grid-column field="Cantidad" title="Cantidad">
+</kendo-grid-column>
+<kendo-grid-column field="PrecioVenta" title="Precio Venta" format="{0:c}">
+</kendo-grid-column>
+<kendo-grid-column field="Total" title="Total" format="{0:c}">
+</kendo-grid-column>
+</kendo-grid>
+</div>
+</kendo-grid>
+

@@ -8,6 +8,7 @@ import { ConsultaProductosComponent } from './consulta-productos/consulta-produc
 import { BajaProductosComponent } from './baja-productos/baja-productos.component';
 import { CambioProductosComponent } from './cambio-productos/cambio-productos.component';
 import { VentasNuevaComponent } from './ventas-nueva/ventas-nueva.component';
+import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.component';
 
 export const AppRoutes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -16,6 +17,7 @@ export const AppRoutes: Routes = [
   { path: 'consultaproductos', component: ConsultaProductosComponent },
   { path: 'bajaproductos', component: BajaProductosComponent },
   { path: 'cambioproductos', component: CambioProductosComponent },
-  { path: 'ventanueva', component: VentasNuevaComponent }
+  { path: 'ventanueva', component: VentasNuevaComponent },
+  { path: 'consultaventa', component: VentasConsultaComponent }
 
 ];

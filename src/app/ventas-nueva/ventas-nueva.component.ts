@@ -55,7 +55,7 @@ export class VentasNuevaComponent implements OnInit {
     });
     this.VentaForm = this.fb.group({
       Id: new FormControl({value: '', disabled: true}),
-      Fecha: new FormControl({value: '', disabled: true}, []),
+      Fecha: new FormControl({value: '', disabled: false}, []),
       TotVta: new FormControl({value: '', disabled: true}, []),
       TotArt: new FormControl({value: '', disabled: true}, []),
       Productos: this.fb.array([])
@@ -183,6 +183,7 @@ export class VentasNuevaComponent implements OnInit {
   guardarVenta() {
    // this.VentaForm.get('Productos').setValue(this.dataSource.data);
    // console.log(this.VentaForm.getRawValue());
+   this.VentaForm.get('Fecha').setValue(moment(this.VentaForm.get('Fecha').value).valueOf());
     this.db.insert(this.VentaForm.getRawValue(), function(err, docs) {
      // console.log(err);
      // console.log(docs);

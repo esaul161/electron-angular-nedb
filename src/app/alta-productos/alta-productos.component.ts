@@ -33,7 +33,7 @@ export class AltaProductosComponent implements OnInit {
 
   save() {
     console.log(this.ProductoForm.value);
-    this.ProductoForm.get('Fecha').setValue(moment(this.ProductoForm.get('Fecha').value).format('DD/MM/YYYY'));
+    this.ProductoForm.get('Fecha').setValue(moment(this.ProductoForm.get('Fecha').value).valueOf());
     this.db.insert(this.ProductoForm.value, function (err, newDoc) {   // Callback is optional
       // newDoc is the newly inserted document, including its _id
       // newDoc has no key called notToBeSaved since its value was undefined
