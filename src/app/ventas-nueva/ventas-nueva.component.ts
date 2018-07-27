@@ -24,10 +24,13 @@ export class VentasNuevaComponent implements OnInit {
 
   displayedColumns = ['Id', 'Descripcion', 'Cantidad', 'PrecioVenta', 'Total', 'Acciones'];
   db = new Datastore({ filename: './Ventas.db', autoload: true });
+  dbIds = new Datastore({filename: './Ids', autoload: true});
   dbProd = new Datastore({ filename: './Productos.db', autoload: true });
   existeId = true;
   existen = false;
   flagboton = true;
+  arrProd = [];
+  IdVta = 1;
   texto;
   totart;
   totpag;
@@ -51,7 +54,7 @@ export class VentasNuevaComponent implements OnInit {
       Total: new FormControl(null, [])
     });
     this.VentaForm = this.fb.group({
-      Id: new FormControl(null, [Validators.required]),
+      Id: new FormControl({value: '', disabled: true}),
       Fecha: new FormControl({value: '', disabled: true}, []),
       TotVta: new FormControl({value: '', disabled: true}, []),
       TotArt: new FormControl({value: '', disabled: true}, []),
@@ -61,6 +64,29 @@ export class VentasNuevaComponent implements OnInit {
   }
 
   ngOnInit() {
+    let flag = false;
+    let idvta;
+    this.dbIds.find({}, function (err, docs) {
+      // console.log(err);
+     // console.log(docs);
+      if (docs.length) {
+        flag = true;
+        idvta = docs.length;
+       // console.log('si entre al if donde encontre ', docs['IdVta'], ' ' , docs.IdVta);
+      }
+    });
+    setTimeout(() => {
+    if (flag) {
+     // console.log('encontre el id');
+      this.IdVta = idvta;
+      this.VentaForm.get('Id').setValue(this.IdVta);
+     // console.log('id de la venta ', this.IdVta);
+    } else {
+     // console.log('No encontre el id');
+      this.dbIds.insert({IdVta: this.IdVta}, function (err, newDoc) {});
+      this.VentaForm.get('Id').setValue(this.IdVta);
+    }
+  }, 700);
     this.VentaForm.get('Fecha').setValue((new Date()).toISOString());
   }
 
@@ -82,6 +108,7 @@ export class VentasNuevaComponent implements OnInit {
     setTimeout(() => {
       this.existeId = flag;
       if (flag) {
+        this.arrProd.push(producto[0]);
         this.existencias = producto[0].Existencias;
        // console.log(this.existencias);
         this.ProductoForm.get('Descripcion').setValue(producto[0].Descripcion);
@@ -107,6 +134,7 @@ export class VentasNuevaComponent implements OnInit {
     for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
       if (this.ELEMENT_DATA[i]['Id'] === $valor) {
         this.ELEMENT_DATA.splice(i, 1);
+        this.arrProd.splice(i, 1);
         arrayProd.removeAt(i);
           break;
       }
@@ -154,9 +182,42 @@ export class VentasNuevaComponent implements OnInit {
 
   guardarVenta() {
    // this.VentaForm.get('Productos').setValue(this.dataSource.data);
-    console.log(this.VentaForm.getRawValue());
+   // console.log(this.VentaForm.getRawValue());
+    this.db.insert(this.VentaForm.getRawValue(), function(err, docs) {
+     // console.log(err);
+     // console.log(docs);
+    });
+   // console.log('array de productos original ', this.arrProd);
+    for (let i = 0 ; i < this.dataSource.data.length ; i++) {
+      const dato = this.dataSource.data[i];
+      const doriginal = this.arrProd[i];
+      console.log('array prod vta ', dato);
+      console.log('array original ', doriginal);
+      doriginal['Existencias'] = doriginal['Existencias'] - dato['Cantidad'];
+      this.dbProd.update({Id: doriginal['Id']}, {$set: doriginal}, {multi: true}, function(err, doc) {
+        console.log('doc actualizado ', doc);
+      });
+      this.arrProd[i] = doriginal;
+    }
+   // console.log(this.IdVta);
+    this.IdVta = this.IdVta + 1;
+    this.dbIds.insert({IdVta: this.IdVta}, function (err, newDoc) {});
+    this.ELEMENT_DATA = [];
+    this.VentaForm.reset();
+    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.VentaForm.get('Fecha').setValue((new Date()).toISOString());
+    this.VentaForm.get('Id').setValue(this.IdVta);
   }
 
+   sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async demo() {
+    console.log('Taking a break...');
+    await this.sleep(2000);
+    console.log('Two second later');
+  }
   createItem(): FormGroup {
     return this.fb.group({
           Id: new FormControl(null, [Validators.required]),
@@ -166,6 +227,7 @@ export class VentasNuevaComponent implements OnInit {
           Total: new FormControl(null, [])
     });
   }
+
 }
 
 

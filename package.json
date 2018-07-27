@@ -39,6 +39,7 @@
     "@progress/kendo-theme-material": "^1.1.4",
     "@types/nedb": "^1.8.5",
     "core-js": "^2.4.1",
+    "lowdb": "^1.0.0",
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
     "node-sass": "^4.9.2",
@@ -66,5 +67,9 @@
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
+  },
+  "browser": {
+    "./lib/customUtils.js": "./browser-version/browser-specific/lib/customUtils.js",
+    "./lib/storage.js": "./browser-version/browser-specific/lib/storage.js"
   }
 }
