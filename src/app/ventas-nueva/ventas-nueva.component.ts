@@ -167,7 +167,7 @@ export class VentasNuevaComponent implements OnInit {
 
   cambioProductos($event) {
    // console.log($event);
-    if ($event > this.existencias || $event === null) {
+    if ($event > this.existencias || $event === null || this.existencias === 0) {
       this.existen = true;
       this.flagboton = true;
       this.texto = 'No existen productos suficientes.';
