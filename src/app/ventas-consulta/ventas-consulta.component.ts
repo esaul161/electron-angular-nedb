@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild  } from '@angular/core';
 import * as moment from 'moment';
 import * as Datastore from 'nedb';
-import { process, State } from '@progress/kendo-data-query';
+import { process, GroupDescriptor, State, aggregateBy } from '@progress/kendo-data-query';
 import {
   GridComponent,
   GridDataResult,
-  DataStateChangeEvent
+  DataStateChangeEvent,
+  PagerComponent
 } from '@progress/kendo-angular-grid';
 
 @Component({
@@ -13,10 +15,19 @@ import {
   templateUrl: './ventas-consulta.component.html',
   styleUrls: ['./ventas-consulta.component.scss']
 })
-export class VentasConsultaComponent implements OnInit {
+export class VentasConsultaComponent implements OnInit, AfterViewInit {
   db = new Datastore({ filename: './Ventas.db', autoload: true });
+  @ViewChild('TotalVenta') TotalVenta: ElementRef;
+  @ViewChild('TotalEfectivo') TotalEfectivo: ElementRef;
+  @ViewChild('TotalTarjeta') TotalTarjeta: ElementRef;
+  @ViewChild('TotalArticulos') TotalArticulos: ElementRef;
   public gridData;
   datos;
+  public total;
+  totalVta = 0;
+  totalArt = 0;
+  vtaEfectivo = 0;
+  vtaTarjeta = 0;
   public state: State = {
     skip: 0,
     take: 5,
@@ -32,11 +43,18 @@ export class VentasConsultaComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+  }
+
   getData(fechainicio, fechafin) {
     const fechai = Number(moment(fechainicio).valueOf());
     const fechaf = Number(moment(fechafin).add(23, 'hours').add(59, 'minutes').add(59, 'seconds').valueOf());
     console.log(fechai, ' ', fechaf);
     let data = [];
+    let tot = 0;
+    let tota = 0;
+    let totE = 0;
+    let totT = 0;
    // console.log(moment(fechanum).format('DD/MM/YYYY'));
     console.log('di click', fechainicio, ' ', fechafin);
     this.db.find({$and: [{ Fecha : { $gte: fechai }}, { Fecha : { $lte: fechaf }} ]}, function (err, docs) {
@@ -44,6 +62,13 @@ export class VentasConsultaComponent implements OnInit {
       console.log(docs);
       if (docs.length) {
         for (let i = 0 ; i < docs.length ; i ++) {
+          tot = docs[i].TotVta + tot;
+          tota = docs[i].TotArt + tota;
+          if (docs[i].Pago.TipoPago === 'Efectivo') {
+            totE = docs[i].TotVta + totE;
+          } else {
+            totT = docs[i].TotVta + totT;
+          }
           docs[i].Fecha = moment(docs[i].Fecha).format('DD/MM/YYYY');
         }
         data = docs;
@@ -52,6 +77,13 @@ export class VentasConsultaComponent implements OnInit {
     setTimeout(() => {
       this.gridData = data;
       this.datos = data;
+      this.totalVta = tot;
+      this.totalArt = tota;
+      this.TotalEfectivo.nativeElement.value = totE;
+      this.TotalTarjeta.nativeElement.value = totT;
+      this.TotalArticulos.nativeElement.value = tota;
+      this.TotalVenta.nativeElement.value = tot;
     }, 1000);
   }
+
 }

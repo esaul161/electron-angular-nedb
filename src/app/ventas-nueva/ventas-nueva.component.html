@@ -1,44 +1,70 @@
 <app-menu></app-menu>
-<div [formGroup]="VentaForm" layout="row" layout-align="center center">
-  <div>
-  <mat-form-field class="example-full-width">
-    <input formControlName="Id" type="number" (blur)="verificaId()" matInput placeholder="Número de nota">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field>
-    <input matInput  formControlName="Fecha" [matDatepicker]="picker" placeholder="Fecha">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-</div>
-<div [formGroup]="ProductoForm">
-<mat-form-field class="example-full-width">
-  <input type="number" #id (blur)="verificaId(id.value)"  formControlName="Id" matInput placeholder="Código">
-  <mat-hint *ngIf="!existeId">El código ingresado no existe.</mat-hint>
-</mat-form-field>
-<mat-form-field class="example-full-width">
-  <input type="number" formControlName="Cantidad" (ngModelChange)="cambioProductos($event)" matInput placeholder="Cantidad">
-  <mat-hint *ngIf="existen">{{texto}}</mat-hint>
-</mat-form-field>
-</div>
+<div [formGroup]="VentaForm" >
+<mat-grid-list cols="5" rowHeight="85px">
+    <mat-grid-tile [colspan]="2"
+    [rowspan]="1">
 
-<div>
-  <button mat-raised-button [disabled]="flagboton" (click)="addElement()" color="primary">Guardar</button>
-</div>
-<div>
-  <button mat-raised-button (click)="guardarVenta()" color="primary">Cobrar</button>
-</div>
-<div>
-  <mat-form-field class="example-full-width">
-    <input formControlName="TotArt" type="number" (blur)="verificaId()" matInput placeholder="Total de artículos">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field class="example-full-width">
-    <input formControlName="TotVta" type="number" (blur)="verificaId()" matInput placeholder="Tótal a pagar">
-  </mat-form-field>
-</div>
+    </mat-grid-tile>
+  <mat-grid-tile [colspan]="3"
+  [rowspan]="1">
+    <div class="card">
+      <mat-form-field class="example-full-width">
+        <input formControlName="Id" type="number" (blur)="verificaId()" matInput placeholder="Número de nota">
+      </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+          <input matInput formControlName="Fecha" [matDatepicker]="picker" placeholder="Fecha">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="2"
+  [rowspan]="1"></mat-grid-tile>
+  <mat-grid-tile [colspan]="3"
+  [rowspan]="1">
+  <div>
+      <mat-form-field class="example-full-width">
+        <input formControlName="TotArt" type="number" (blur)="verificaId()" matInput placeholder="Total de artículos">
+       <!--  <span matSuffix>piezas</span> -->
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="example-full-width">
+          <span matPrefix>$&nbsp;</span>
+        <input formControlName="TotVta" type="number" (blur)="verificaId()" matInput placeholder="Total a pagar">
+      </mat-form-field>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="3"
+  [rowspan]="1">
+    <div [formGroup]="ProductoForm">
+    <mat-form-field class="example-full-width">
+      <input type="number" #id (blur)="verificaId(id.value)"  formControlName="Id" matInput placeholder="Código">
+      <mat-hint *ngIf="!existeId">El código ingresado no existe.</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input type="number" formControlName="Cantidad" (ngModelChange)="cambioProductos($event)" matInput placeholder="Cantidad">
+      <mat-hint *ngIf="existen">{{texto}}</mat-hint>
+    </mat-form-field>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1"
+  [rowspan]="1">
+  <div>
+      <button mat-raised-button [disabled]="flagboton" (click)="addElement()" color="primary">Agregar</button>
+    </div>
+</mat-grid-tile>
+<mat-grid-tile [colspan]="1"
+  [rowspan]="1">
+  <div>
+      <button mat-raised-button [disabled]="noVenta" (click)="openDialog()" color="primary">Cobrar</button>
+    </div>
+</mat-grid-tile>
+</mat-grid-list>
+
+
 </div>
 <div *ngIf="!dataSource.length">
 <mat-table #table [dataSource]="dataSource">
@@ -65,7 +91,7 @@
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="PrecioVenta">
-    <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Precio Unitario </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.PrecioVenta}} </mat-cell>
   </ng-container>
 
@@ -77,8 +103,8 @@
   <ng-container matColumnDef="Acciones">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
-          <button mat-button (click)="onDelete(element.Id)">
-              <mat-icon>Eliminar</mat-icon>
+          <button mat-button (click)="onDelete(element.Id)" >
+            <mat-icon> delete</mat-icon>Borrar
           </button>
       </mat-cell>
   </ng-container>

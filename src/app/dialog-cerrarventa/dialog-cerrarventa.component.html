@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Cerrar Venta</h2>
+<mat-dialog-content>{{texto}}
+
+  <div [formGroup]="PagoForm" layout="row" layout-align="center center">
+    <div>
+    <mat-form-field class="example-full-width">
+      <input type="number" [disabled]="true" [value]="totalpago" matInput placeholder="Total a pagar">
+    </mat-form-field>
+  </div>
+  <div>
+      <mat-form-field class="example-full-width">
+          <input formControlName="Pago" #pago (keyup)="generaCambio(pago.value)" type="number" matInput placeholder="Pago">
+          <mat-hint *ngIf="invalido">El Monto ingresado es incorrecto.</mat-hint>
+        </mat-form-field>
+  </div>
+  <div>
+    <mat-radio-group formControlName="TipoPago" (change)="radioChange($event)">
+      <mat-radio-button name="efectivo" value="Efectivo" checked="true"><mat-icon>attach_money</mat-icon>Efectivo</mat-radio-button>
+      <mat-radio-button name="tarjeta" value="Tarjeta"><mat-icon>credit_card</mat-icon>Tarjeta</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+        <input type="text"  formControlName="Referencia" matInput placeholder="Referencia">
+      </mat-form-field>
+</div>
+  <div>
+      <mat-form-field class="example-full-width">
+          <input type="number" [disabled]="true" [value]="cambio" matInput placeholder="Cambio">
+          <mat-hint *ngIf="invalido">El Monto ingresado es incorrecto.</mat-hint>
+        </mat-form-field>
+  </div>
+
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div layout="row" layout-align="center center">
+  <button mat-raised-button [mat-dialog-close]="false" color="warn">Cancelar</button>
+  <button mat-raised-button [disabled]="bandera" [mat-dialog-close]="PagoForm.getRawValue()" color="primary">Cobrar</button>
+</div>
+</mat-dialog-actions>

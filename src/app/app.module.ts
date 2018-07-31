@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatGridListModule} from '@angular/material/grid-list';
 import {
   MatToolbarModule,
   MatTabsModule,
@@ -11,6 +14,7 @@ import {
   MatMenuModule,
   MatNativeDateModule
 } from '@angular/material';
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -30,6 +34,8 @@ import { CambioProductosComponent } from './cambio-productos/cambio-productos.co
 import { VentasNuevaComponent } from './ventas-nueva/ventas-nueva.component';
 import { MenuComponent } from './menu/menu.component';
 import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.component';
+import { VentasCorteComponent } from './ventas-corte/ventas-corte.component';
+import { DialogCerrarventaComponent } from './dialog-cerrarventa/dialog-cerrarventa.component';
 @NgModule({
    declarations: [
       AppComponent,
@@ -42,10 +48,16 @@ import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.compo
       MenuComponent,
       BajaProductosComponent,
       DialogComponent,
-      VentasNuevaComponent
+      VentasNuevaComponent,
+      VentasCorteComponent,
+      DialogCerrarventaComponent
    ],
    imports: [
       BrowserModule,
+      MatGridListModule,
+      MatRadioModule,
+      PDFExportModule,
+      ExcelExportModule,
       MatToolbarModule,
       MatTableModule,
       MatTabsModule,
@@ -55,7 +67,9 @@ import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.compo
       MatCardModule,
       GridModule,
       BrowserAnimationsModule,
-      RouterModule.forRoot(AppRoutes, {useHash: false}),
+      RouterModule.forRoot(AppRoutes,
+      {useHash: false
+}),
       MatRippleModule,
       MatInputModule,
       FormsModule,
@@ -69,6 +83,6 @@ import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.compo
    bootstrap: [
       AppComponent
    ],
-   entryComponents: [DialogComponent]
+   entryComponents: [DialogComponent, DialogCerrarventaComponent]
 })
 export class AppModule { }

@@ -1,3 +1,4 @@
+import { DialogCerrarventaComponent } from './../dialog-cerrarventa/dialog-cerrarventa.component';
 import { Component, OnInit, Inject } from '@angular/core';
 import * as Datastore from 'nedb';
 import {FormControl, Validators, FormGroup, FormBuilder, FormArray} from '@angular/forms';
@@ -5,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import {MatTableDataSource} from '@angular/material';
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 
@@ -29,6 +30,7 @@ export class VentasNuevaComponent implements OnInit {
   existeId = true;
   existen = false;
   flagboton = true;
+  noVenta = true;
   arrProd = [];
   IdVta = 1;
   texto;
@@ -45,7 +47,8 @@ export class VentasNuevaComponent implements OnInit {
       filters: [{ field: 'Id', operator: 'contains'}]
     }
    };
-  constructor(private fb: FormBuilder,  private router: Router, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, public dialog: MatDialog ,
+    private router: Router, private route: ActivatedRoute) {
     this.ProductoForm = this.fb.group({
       Id: new FormControl(null, [Validators.required]),
       Cantidad: new FormControl(null, []),
@@ -55,10 +58,15 @@ export class VentasNuevaComponent implements OnInit {
     });
     this.VentaForm = this.fb.group({
       Id: new FormControl({value: '', disabled: true}),
-      Fecha: new FormControl({value: '', disabled: false}, []),
+      Fecha: new FormControl({value: '', disabled: true}, []),
       TotVta: new FormControl({value: '', disabled: true}, []),
       TotArt: new FormControl({value: '', disabled: true}, []),
-      Productos: this.fb.array([])
+      Productos: this.fb.array([]),
+      Pago: this.fb.group({
+        TipoPago: new FormControl({}, []),
+        Pago: new FormControl(),
+        Referencia: new FormControl({value: ''})
+      })
     });
 
   }
@@ -127,6 +135,7 @@ export class VentasNuevaComponent implements OnInit {
      arrayProd.push(formProd);
     this.calculaTotales();
     this.ProductoForm.reset();
+    this.noVenta = false;
   }
 
   onDelete($valor) {
@@ -141,6 +150,10 @@ export class VentasNuevaComponent implements OnInit {
   }
   this.calculaTotales();
   this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  if (!this.ELEMENT_DATA.length) {
+    console.log('la longitud es cero ');
+    this.noVenta = true;
+  }
   }
 
   cambioCantidad($event) {
@@ -210,15 +223,6 @@ export class VentasNuevaComponent implements OnInit {
     this.VentaForm.get('Id').setValue(this.IdVta);
   }
 
-   sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  async demo() {
-    console.log('Taking a break...');
-    await this.sleep(2000);
-    console.log('Two second later');
-  }
   createItem(): FormGroup {
     return this.fb.group({
           Id: new FormControl(null, [Validators.required]),
@@ -229,6 +233,21 @@ export class VentasNuevaComponent implements OnInit {
     });
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open( DialogCerrarventaComponent, {
+      width: '450px',
+      data: {total: this.totpag}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.VentaForm.get('Pago').patchValue(result);
+        console.log(result);
+        console.log(this.VentaForm.getRawValue());
+        this.guardarVenta();
+      }
+    });
+  }
 }
 
 

@@ -9,6 +9,7 @@ import { BajaProductosComponent } from './baja-productos/baja-productos.componen
 import { CambioProductosComponent } from './cambio-productos/cambio-productos.component';
 import { VentasNuevaComponent } from './ventas-nueva/ventas-nueva.component';
 import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.component';
+import { VentasCorteComponent } from './ventas-corte/ventas-corte.component';
 
 export const AppRoutes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -18,6 +19,7 @@ export const AppRoutes: Routes = [
   { path: 'bajaproductos', component: BajaProductosComponent },
   { path: 'cambioproductos', component: CambioProductosComponent },
   { path: 'ventanueva', component: VentasNuevaComponent },
-  { path: 'consultaventa', component: VentasConsultaComponent }
+  { path: 'consultaventa', component: VentasConsultaComponent },
+  { path: 'corteventa', component: VentasCorteComponent }
 
 ];
