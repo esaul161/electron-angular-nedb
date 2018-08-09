@@ -1,0 +1,35 @@
+<h2>{{datosEmpresa?.Nombre}}</h2>
+<table>
+  <tr>
+    <td>
+        No. Ticket: {{data?.Id}}
+    </td>
+    <td></td>
+    <td>
+        Fecha: {{fecha}}
+    </td>
+  </tr>
+  <tr>
+    <th>Cod.</th>
+    <th>Cant.</th>
+    <th>Tot.</th>
+  </tr>
+  <tr *ngFor="let producto of gridData">
+    <td>{{producto.Id}}</td>
+    <td>{{producto.Cantidad}}</td>
+    <td>${{producto.Total}}</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Total: </td>
+    <td>$ {{data.TotVta}}</td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>Art. Vendidos: </td>
+      <td>{{data.TotArt}} pz.</td>
+    </tr>
+</table>
+<h1>{{datosEmpresa?.Domicilio}}</h1>
+<h1>{{datosEmpresa?.Mensaje}}</h1>
+

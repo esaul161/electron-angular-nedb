@@ -1,0 +1,29 @@
+<app-menu></app-menu>
+<div [formGroup]="ConfiguracionForm" layout="row" layout-align="center center">
+    <div *ngIf="false">
+        <mat-form-field class="example-full-width">
+          <input formControlName="Id" type="text" matInput placeholder="Id">
+        </mat-form-field>
+      </div>
+  <div>
+        <mat-form-field class="example-full-width">
+          <input formControlName="Nombre" type="text" matInput placeholder="Nombre Empresa">
+        </mat-form-field>
+      </div>
+      <div>
+          <mat-form-field class="example-full-width">
+            <input formControlName="Domicilio" type="text" matInput placeholder="Datos Empresa">
+          </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="example-full-width">
+              <input formControlName="Mensaje" type="text" matInput placeholder="Mensaje Ticket">
+            </mat-form-field>
+          </div>
+          <div>
+
+          </div>
+          <div>
+              <button mat-raised-button (click)="save()" color="primary">Guardar</button>
+            </div>
+</div>

@@ -9,7 +9,7 @@
   [rowspan]="1">
     <div class="card">
       <mat-form-field class="example-full-width">
-        <input formControlName="Id" type="number" (blur)="verificaId()" matInput placeholder="Número de nota">
+        <input formControlName="Id" type="number" matInput placeholder="Número de nota">
       </mat-form-field>
     </div>
     <div>
@@ -26,14 +26,14 @@
   [rowspan]="1">
   <div>
       <mat-form-field class="example-full-width">
-        <input formControlName="TotArt" type="number" (blur)="verificaId()" matInput placeholder="Total de artículos">
+        <input formControlName="TotArt" type="number" matInput placeholder="Total de artículos">
        <!--  <span matSuffix>piezas</span> -->
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="example-full-width">
           <span matPrefix>$&nbsp;</span>
-        <input formControlName="TotVta" type="number" (blur)="verificaId()" matInput placeholder="Total a pagar">
+        <input formControlName="TotVta" type="number" matInput placeholder="Total a pagar">
       </mat-form-field>
     </div>
   </mat-grid-tile>
@@ -66,7 +66,7 @@
 
 
 </div>
-<div *ngIf="!dataSource.length">
+<div >
 <mat-table #table [dataSource]="dataSource">
 
   <!-- Position Column -->

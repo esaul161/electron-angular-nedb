@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  usuario: UsuarioTemplate = { usuario: 'Pedro', password: 'password' };
+  usuario: UsuarioTemplate = { usuario: 'Admin', password: 'password' };
   UsuarioForm:  FormGroup;
    db = new Datastore({ filename: './Usuarios.db', autoload: true });
    hide = true;
@@ -18,12 +18,22 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder,  private router: Router, private route: ActivatedRoute) {
    // this.usuario.nombre = 'Pedro';
    // this.usuario.password = 'Prueba';
-   /* this.db.insert(this.usuario, function (err, newDoc) {   // Callback is optional
-    // newDoc is the newly inserted document, including its _id
-    // newDoc has no key called notToBeSaved since its value was undefined
-    console.log(err);
-    console.log(newDoc);
-  }); */
+   let flag = false;
+   this.db.find({usuario: 'Admin'}, function (err, Doc) {
+     if (Doc.length) {
+      flag = true;
+     }
+   });
+   setTimeout(() => {
+     if (!flag) {
+      this.db.insert(this.usuario, function (err, newDoc) {   // Callback is optional
+        // newDoc is the newly inserted document, including its _id
+        // newDoc has no key called notToBeSaved since its value was undefined
+        console.log(err);
+        console.log(newDoc);
+          });
+     }
+    }, 700);
   this.UsuarioForm = this.fb.group({
     usuario: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required])
@@ -50,7 +60,7 @@ export class LoginComponent implements OnInit {
   setTimeout(() => {
     if (flag) {
       this.router.navigate(['./inicio'], { relativeTo: this.route });
-    }}, 1000);
+    }}, 700);
   }
 
 }

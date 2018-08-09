@@ -2,6 +2,7 @@
     <button mat-button (click)="navegar('inicio')">Inicio</button>
   <button mat-button [matMenuTriggerFor]="productos">Productos</button>
   <button mat-button [matMenuTriggerFor]="ventas">Ventas</button>
+  <button mat-button [matMenuTriggerFor]="configuracion">Configuración</button>
 
 <mat-menu #productos="matMenu">
   <button mat-menu-item (click)="navegar('altaproductos')">Alta</button>
@@ -11,8 +12,11 @@
 </mat-menu>
 <mat-menu #ventas="matMenu">
   <button mat-menu-item (click)="navegar('ventanueva')">Nueva</button>
-  <button mat-menu-item (click)="navegar('consultaventa')">Consulta</button>
+  <button mat-menu-item (click)="navegar('consultaticket')">Consulta</button>
   <button mat-menu-item (click)="navegar('corteventa')">Corte</button>
   <button mat-menu-item (click)="navegar('consultaventa')">Reporte Ventas</button>
 </mat-menu>
+<mat-menu #configuracion="matMenu">
+    <button mat-menu-item (click)="navegar('configuracion')">Datos Empresa</button>
+  </mat-menu>
 </mat-toolbar>

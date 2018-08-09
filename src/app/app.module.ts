@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { GridModule } from '@progress/kendo-angular-grid';
+import { GridModule, ExcelModule, PDFModule } from '@progress/kendo-angular-grid';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { HttpClientModule } from '@angular/common/http';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { FileUploadModule } from 'ng2-file-upload';
 import {
   MatToolbarModule,
   MatTabsModule,
@@ -36,6 +39,9 @@ import { MenuComponent } from './menu/menu.component';
 import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.component';
 import { VentasCorteComponent } from './ventas-corte/ventas-corte.component';
 import { DialogCerrarventaComponent } from './dialog-cerrarventa/dialog-cerrarventa.component';
+import { NotaVentaComponent } from './nota-venta/nota-venta.component';
+import { ConfiguracionComponent } from './configuracion/configuracion.component';
+import { VentasConsultaTicketComponent } from './ventas-consulta-ticket/ventas-consulta-ticket.component';
 @NgModule({
    declarations: [
       AppComponent,
@@ -50,14 +56,19 @@ import { DialogCerrarventaComponent } from './dialog-cerrarventa/dialog-cerrarve
       DialogComponent,
       VentasNuevaComponent,
       VentasCorteComponent,
-      DialogCerrarventaComponent
+      DialogCerrarventaComponent,
+      NotaVentaComponent,
+      ConfiguracionComponent,
+      VentasConsultaTicketComponent
    ],
    imports: [
       BrowserModule,
+      HttpClientModule,
+      UploadModule,
       MatGridListModule,
+      FileUploadModule,
       MatRadioModule,
       PDFExportModule,
-      ExcelExportModule,
       MatToolbarModule,
       MatTableModule,
       MatTabsModule,
@@ -66,10 +77,12 @@ import { DialogCerrarventaComponent } from './dialog-cerrarventa/dialog-cerrarve
       MatIconModule,
       MatCardModule,
       GridModule,
+      ExcelModule,
+      PDFModule,
+      PDFExportModule,
       BrowserAnimationsModule,
       RouterModule.forRoot(AppRoutes,
-      {useHash: false
-}),
+      {useHash: false}),
       MatRippleModule,
       MatInputModule,
       FormsModule,

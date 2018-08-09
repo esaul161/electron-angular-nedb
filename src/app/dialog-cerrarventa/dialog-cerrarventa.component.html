@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Cerrar Venta</h2>
-<mat-dialog-content>{{texto}}
+<mat-dialog-content>
 
   <div [formGroup]="PagoForm" layout="row" layout-align="center center">
     <div>
@@ -32,10 +32,15 @@
   </div>
 
   </div>
+  <div>
+  <kendo-pdf-export #pdf paperSize="A6" >
+      <app-nota-venta [data]="data.datosVenta"></app-nota-venta>
+    </kendo-pdf-export>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <div layout="row" layout-align="center center">
   <button mat-raised-button [mat-dialog-close]="false" color="warn">Cancelar</button>
-  <button mat-raised-button [disabled]="bandera" [mat-dialog-close]="PagoForm.getRawValue()" color="primary">Cobrar</button>
+  <button mat-raised-button [disabled]="bandera" [mat-dialog-close]="PagoForm.getRawValue()" (click)="pdf.saveAs('Ticket.pdf')" color="primary">Cobrar</button>
 </div>
 </mat-dialog-actions>

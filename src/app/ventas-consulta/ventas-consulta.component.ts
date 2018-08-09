@@ -7,7 +7,8 @@ import {
   GridComponent,
   GridDataResult,
   DataStateChangeEvent,
-  PagerComponent
+  PagerComponent,
+  PageChangeEvent
 } from '@progress/kendo-angular-grid';
 
 @Component({
@@ -30,7 +31,7 @@ export class VentasConsultaComponent implements OnInit, AfterViewInit {
   vtaTarjeta = 0;
   public state: State = {
     skip: 0,
-    take: 5,
+    take: 10,
 
     // Initial filter descriptor
     filter: {
@@ -38,6 +39,7 @@ export class VentasConsultaComponent implements OnInit, AfterViewInit {
       filters: [{ field: 'Id', operator: 'contains'}]
     }
    };
+   pageSize = 10;
   constructor() { }
 
   ngOnInit() {
@@ -50,28 +52,30 @@ export class VentasConsultaComponent implements OnInit, AfterViewInit {
     const fechai = Number(moment(fechainicio).valueOf());
     const fechaf = Number(moment(fechafin).add(23, 'hours').add(59, 'minutes').add(59, 'seconds').valueOf());
     console.log(fechai, ' ', fechaf);
-    let data = [];
+    let data: any;
     let tot = 0;
     let tota = 0;
     let totE = 0;
     let totT = 0;
+   // let source: any;
    // console.log(moment(fechanum).format('DD/MM/YYYY'));
-    console.log('di click', fechainicio, ' ', fechafin);
-    this.db.find({$and: [{ Fecha : { $gte: fechai }}, { Fecha : { $lte: fechaf }} ]}, function (err, docs) {
+    // console.log('di click', fechainicio, ' ', fechafin);
+    this.db.find({$and: [{ Fecha : { $gte: fechai }}, { Fecha : { $lte: fechaf }} ]}).sort({ Fecha: 1 }).exec( function (err, docs) {
       // docs contains Earth and Jupiter
-      console.log(docs);
-      if (docs.length) {
-        for (let i = 0 ; i < docs.length ; i ++) {
-          tot = docs[i].TotVta + tot;
-          tota = docs[i].TotArt + tota;
-          if (docs[i].Pago.TipoPago === 'Efectivo') {
-            totE = docs[i].TotVta + totE;
+      data = docs;
+      // console.log(docs);
+      if (data.length) {
+        for (let i = 0 ; i < data.length ; i ++) {
+          tot = data[i].TotVta + tot;
+          tota = data[i].TotArt + tota;
+          if (data[i].Pago.TipoPago === 'Efectivo') {
+            totE = data[i].TotVta + totE;
           } else {
-            totT = docs[i].TotVta + totT;
+            totT = data[i].TotVta + totT;
           }
-          docs[i].Fecha = moment(docs[i].Fecha).format('DD/MM/YYYY');
+          data[i].Fecha = moment(data[i].Fecha).format('DD/MM/YYYY');
         }
-        data = docs;
+
       }
     });
     setTimeout(() => {
@@ -83,7 +87,20 @@ export class VentasConsultaComponent implements OnInit, AfterViewInit {
       this.TotalTarjeta.nativeElement.value = totT;
       this.TotalArticulos.nativeElement.value = tota;
       this.TotalVenta.nativeElement.value = tot;
+      this.vtaEfectivo = totE;
+      this.vtaTarjeta = totT;
     }, 1000);
   }
 
+public pageChange(event: PageChangeEvent): void {
+        this.state.skip = event.skip;
+        this.loadItems();
+    }
+
+    private loadItems(): void {
+        this.gridData = {
+            data: this.datos.slice(this.state.skip, this.state.skip + this.pageSize),
+            total: this.datos.length
+        };
+    }
 }

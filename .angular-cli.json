@@ -9,7 +9,19 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "package.json",
+        {
+          "input": "../",
+          "glob": "package.json",
+          "output": "."
+        },
+        "main.js",
+        {
+          "input": "../",
+          "glob": "main.js",
+          "output": "."
+        }
       ],
       "index": "index.html",
       "main": "main.ts",

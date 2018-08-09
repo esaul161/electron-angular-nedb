@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
+import { NotaVentaComponent } from './../nota-venta/nota-venta.component';
 
 @Component({
   selector: 'app-dialog-cerrarventa',
@@ -10,6 +11,7 @@ import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 export class DialogCerrarventaComponent implements OnInit {
   PagoForm: FormGroup;
   invalido;
+  paperS = ['48mm', '320mm'];
   totalpago;
   cambio;
   disable;

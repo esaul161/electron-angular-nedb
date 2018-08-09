@@ -57,20 +57,21 @@
 </mat-grid-tile>
 <mat-grid-tile [colspan]="2"
   [rowspan]="1">
-  <button mat-raised-button (click)="pdf.saveAs('ReporteVenta.pdf')">
-      Guardar como PDF.
-    </button>
 </mat-grid-tile>
 </mat-grid-list>
 
-<kendo-pdf-export #pdf paperSize="A4" margin="2cm">
 <kendo-grid [data]="gridData" [pageSize]="state.take"
 [skip]="state.skip"
 [sort]="state.sort"
+[pageSize]="10"
 [filter]="state.filter"
 [sortable]="false"
-[pageable]="false"
-[filterable]="false" [height]="410">
+[pageable]="true"
+[filterable]="false" (pageChange)="pageChange($event)">
+<ng-template kendoGridToolbarTemplate>
+    <button type="button" kendoGridExcelCommand icon="file-excel">Exportar a Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf">Exportar a PDF</button>
+</ng-template>
 
   <kendo-grid-column field="Id" title="Código" filter="numeric">
   </kendo-grid-column>
@@ -78,18 +79,29 @@
   </kendo-grid-column>
   <kendo-grid-column field="Pago" title="Tipo de Pago">
       <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem.Pago.TipoPago === 'Efectivo'">
+              1
+            </div>
+            <div *ngIf="dataItem.Pago.TipoPago === 'Tarjeta'">
+                2
+              </div>
           {{dataItem.Pago.TipoPago}}
           <div *ngIf="dataItem.Pago.Referencia">
             Referencia: {{dataItem.Pago.Referencia}}
           </div>
       </ng-template>
+      <ng-template
+        kendoGridFooterTemplate
+            let-column="column">Tot. Vta. Efectivo: {{vtaEfectivo}} <br>
+            Tot. Vta. Tarjeta: {{vtaTarjeta}}
+          </ng-template>
   </kendo-grid-column>
   <kendo-grid-column field="TotArt" title="Número de Artículos">
   <ng-template
         kendoGridFooterTemplate
             let-column="column">Artículos Vendidos: {{totalArt}}</ng-template>
   </kendo-grid-column>
-  <kendo-grid-column field="TotVta" title="Total Venta" format="{0:c}" [style]="rightAlign" [footerStyle]="rightAlign">
+  <kendo-grid-column field="TotVta" title="Total Venta" format="{0:c}">
       <!-- <ng-template kendoGridFooterTemplate let-column="column">
           {{ totals[column.field].sum }}
         </ng-template> -->
@@ -118,5 +130,18 @@
 </kendo-grid-column>
 </kendo-grid>
 </div>
+<kendo-grid-excel fileName="ReporteVta.xlsx"></kendo-grid-excel>
+  <kendo-grid-pdf fileName="ReporteVta.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+      <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+       <div class="page-template">
+          <div class="header">
+            <div style="float: right">Página {{ pageNum }} de {{ totalPages }}</div>
+          </div>
+          <div class="footer">
+            Página {{ pageNum }} de {{ totalPages }}
+          </div>
+        </div>
+      </ng-template>
+  </kendo-grid-pdf>
 </kendo-grid>
-</kendo-pdf-export>

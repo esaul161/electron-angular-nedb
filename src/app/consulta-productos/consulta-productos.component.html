@@ -5,7 +5,11 @@
 [filter]="state.filter"
 [sortable]="false"
 [pageable]="true"
-[filterable]="false" (dataStateChange)="dataStateChange($event)" [height]="410">
+[filterable]="false"  (dataStateChange)="dataStateChange($event)">
+<ng-template kendoGridToolbarTemplate>
+    <button type="button" kendoGridExcelCommand icon="file-excel">Exportar a Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf">Exportar a PDF</button>
+</ng-template>
   <kendo-grid-column field="Id" title="Código" filter="numeric">
   </kendo-grid-column>
   <kendo-grid-column field="Descripcion" title="Descripción" >
@@ -22,5 +26,19 @@
   </kendo-grid-column>
   <kendo-grid-column field="Fecha" title="Fecha de Alta">
   </kendo-grid-column>
+  <kendo-grid-excel fileName="Productos.xlsx"></kendo-grid-excel>
+  <kendo-grid-pdf fileName="Productos.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+      <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+       <div class="page-template">
+          <div class="header">
+            <div style="float: right">Página {{ pageNum }} de {{ totalPages }}</div>
+          </div>
+          <div class="footer">
+            Página {{ pageNum }} de {{ totalPages }}
+          </div>
+        </div>
+      </ng-template>
+  </kendo-grid-pdf>
 </kendo-grid>
 

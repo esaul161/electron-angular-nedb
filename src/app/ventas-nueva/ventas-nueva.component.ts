@@ -236,7 +236,7 @@ export class VentasNuevaComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open( DialogCerrarventaComponent, {
       width: '450px',
-      data: {total: this.totpag}
+      data: {total: this.totpag, datosVenta: this.VentaForm.getRawValue()}
     });
 
     dialogRef.afterClosed().subscribe(result => {

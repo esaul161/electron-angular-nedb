@@ -1,0 +1,54 @@
+<app-menu></app-menu>
+<mat-form-field class="example-full-width">
+  <input #ticket type="number" matInput placeholder="Número de ticket">
+  <mat-hint *ngIf="existeId">El número de ticket ingresado no existe.</mat-hint>
+</mat-form-field>
+<div>
+  <button mat-raised-button (click)="getData(ticket.value)" color="primary">Buscar</button>
+</div>
+<br>
+<kendo-grid [data]="gridData" [pageSize]="state.take"
+[skip]="state.skip"
+[sort]="state.sort"
+[filter]="state.filter"
+[sortable]="false"
+[pageable]="false"
+[filterable]="false">
+
+  <kendo-grid-column field="Id" title="Código" filter="numeric">
+  </kendo-grid-column>
+  <kendo-grid-column field="Fecha" title="Fecha" format='{0:dd/MM/yyyy HH:mm:ss}' >
+  </kendo-grid-column>
+  <kendo-grid-column field="Pago" title="Tipo de Pago">
+      <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem.Pago.TipoPago}}
+          <div *ngIf="dataItem.Pago.Referencia">
+            Referencia: {{dataItem.Pago.Referencia}}
+          </div>
+      </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="TotArt" title="Número de Artículos">
+  </kendo-grid-column>
+  <kendo-grid-column field="TotVta" title="Total Venta" format="{0:c}">
+  </kendo-grid-column>
+  <div *kendoGridDetailTemplate="let dataItem">
+    <kendo-grid
+    [data]="dataItem.Productos"
+    [pageSize]="50"
+    [skip]="0"
+    [pageable]="false"
+    [scrollable]="'none'"
+  >
+<kendo-grid-column field="Id" title="Código" >
+</kendo-grid-column>
+<kendo-grid-column field="Descripcion" title="Descripción">
+</kendo-grid-column>
+<kendo-grid-column field="Cantidad" title="Cantidad">
+</kendo-grid-column>
+<kendo-grid-column field="PrecioVenta" title="Precio Venta" format="{0:c}">
+</kendo-grid-column>
+<kendo-grid-column field="Total" title="Total" format="{0:c}">
+</kendo-grid-column>
+</kendo-grid>
+</div>
+</kendo-grid>

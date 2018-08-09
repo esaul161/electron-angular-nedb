@@ -10,6 +10,8 @@ import { CambioProductosComponent } from './cambio-productos/cambio-productos.co
 import { VentasNuevaComponent } from './ventas-nueva/ventas-nueva.component';
 import { VentasConsultaComponent } from './ventas-consulta/ventas-consulta.component';
 import { VentasCorteComponent } from './ventas-corte/ventas-corte.component';
+import { ConfiguracionComponent } from './configuracion/configuracion.component';
+import { VentasConsultaTicketComponent } from './ventas-consulta-ticket/ventas-consulta-ticket.component';
 
 export const AppRoutes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -20,6 +22,8 @@ export const AppRoutes: Routes = [
   { path: 'cambioproductos', component: CambioProductosComponent },
   { path: 'ventanueva', component: VentasNuevaComponent },
   { path: 'consultaventa', component: VentasConsultaComponent },
-  { path: 'corteventa', component: VentasCorteComponent }
+  { path: 'corteventa', component: VentasCorteComponent },
+  { path: 'configuracion', component: ConfiguracionComponent },
+  { path: 'consultaticket', component: VentasConsultaTicketComponent }
 
 ];
